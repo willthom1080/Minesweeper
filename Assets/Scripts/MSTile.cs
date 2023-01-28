@@ -6,7 +6,7 @@ public class MSTile : MonoBehaviour
 {
     public bool mine;
     public GameObject theManager;
-    private GameManagerS theAstManager;
+    public GameManagerS theAstManager;
     public int iCoord;
     public int jCoord;
     public Sprite[] emptyTextures;
@@ -22,16 +22,25 @@ public class MSTile : MonoBehaviour
 
     void OnMouseUpAsButton()
     {
-        if (isCovered())
+        if (theAstManager.started)
         {
-            if (mine)
+            if (isCovered())
             {
-                theAstManager.revealMines();
+                if (mine)
+                {
+                    theAstManager.revealMines();
+                }
+                else
+                {
+                    loadTexture(0);
+                }
             }
-            else
-            {
-                loadTexture(0);
-            }
+        }
+        else
+        {
+            theAstManager.generateMines(iCoord, jCoord);
+            loadTexture(0);
+            theAstManager.started = true;
         }
     }
 
@@ -50,7 +59,7 @@ public class MSTile : MonoBehaviour
 
     void flagPlant()
     {
-        if (GetComponent<SpriteRenderer>().sprite.texture.name == "FlagTile")
+        if (GetComponent<SpriteRenderer>().sprite.texture.name == "flagtile")
         {
             GetComponent<SpriteRenderer>().sprite = tileTexture[0];
         }
@@ -63,14 +72,13 @@ public class MSTile : MonoBehaviour
 
     public void loadTexture(int num)
     {
+        theManager = GameObject.FindGameObjectWithTag("GameController");
+        theAstManager = theManager.GetComponent<GameManagerS>();
         if (mine)
             GetComponent<SpriteRenderer>().sprite = mineTexture;
-        else if (num == 1)
-        {
-            GetComponent<SpriteRenderer>().sprite = tileTexture[1];
-        }
         else
         {
+            
             GetComponent<SpriteRenderer>().sprite = emptyTextures[theAstManager.getAdjCount(iCoord, jCoord)];
             if (GetComponent<SpriteRenderer>().sprite == emptyTextures[0])
             {
@@ -82,7 +90,6 @@ public class MSTile : MonoBehaviour
 
     public bool isCovered()
     {
-        if (GetComponent<SpriteRenderer>().sprite == tileTexture[1]) { return true; }
         return GetComponent<SpriteRenderer>().sprite == tileTexture[0];
     }
 }

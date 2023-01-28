@@ -10,15 +10,20 @@ public class GameManagerS : MonoBehaviour
     private GameObject newTile;
     float tempX;
     float tempY;
+    float chance;
+    public bool started;
 
-    public static int w = 8;
-    public static int h = 8;
-    public static MSTile[,] theGridio = new MSTile[w, h];
-    public bool[,] empGridio = new bool[w, h];
+    public int w;
+    public int h;
+    public MSTile[,] theGridio;
+    public bool[,] empGridio;
 
     void Start()
     {
         //
+
+        theGridio = new MSTile[w, h];
+        empGridio = new bool[w, h];
 
         for (int i = 0; i < w; i++)
         {
@@ -27,14 +32,63 @@ public class GameManagerS : MonoBehaviour
             {
                 tempY = j - (h / 2);
                 newTile = Instantiate(tilePrefab, new Vector3(tempX, tempY, 0), Quaternion.identity);
-                newTile.GetComponent<MSTile>().mine = Random.value < 0.15;
                 newTile.GetComponent<MSTile>().iCoord = i;
                 newTile.GetComponent<MSTile>().jCoord = j;
 
                 theGridio[i, j] = newTile.GetComponent<MSTile>();
             }
         }
-        showSafeStart();
+        
+    }
+
+    public void generateMines(int safeX, int safeY)
+    {
+        for (int y = 0; y < 8; y++)
+        {
+            switch (y)
+            {
+                case 0: //Right
+                    if (safeX + 1 != w) { theGridio[safeX + 1, safeY].mine = true; }
+                    break;
+                case 1: //Down Right
+                    if ((safeX + 1 != w) && (safeY != 0)) { theGridio[safeX + 1, safeY - 1].mine = true; }
+                    break;
+                case 2: // Down
+                    if (safeY != 0) { theGridio[safeX, safeY - 1].mine = true; }
+                    break;
+                case 3: //Down Left
+                    if ((safeX != 0) && (safeY != 0)) { theGridio[safeX - 1, safeY - 1].mine = true; }
+                    break;
+                case 4: //Left
+                    if (safeX != 0) { theGridio[safeX - 1, safeY].mine = true; }
+                    break;
+                case 5: //Up Left
+                    if ((safeX != 0) && (safeY + 1 != h)) { theGridio[safeX - 1, safeY + 1].mine = true; }
+                    break;
+                case 6: // Up
+                    if (safeY + 1 != h) { theGridio[safeX, safeY + 1].mine = true; }
+                    break;
+                case 7: //Up Right
+                    if ((safeX + 1 != w) && (safeY + 1 != h)) { theGridio[safeX + 1, safeY + 1].mine = true; }
+                    break;
+            }
+        }
+            for (int i = 0; i < w; i++)
+            {
+                for(int j = 0; j < h; j++) {
+
+                    if (!(theGridio[i, j].mine) && !(i == safeX && j == safeY))
+                    {
+                        chance = (float)0.20;
+                        theGridio[i, j].mine = (Random.value < chance);
+                    }
+                    else
+                    {
+                        theGridio[i, j].mine = false;
+                    }
+
+                }
+            }
     }
 
     public void revealMines()
@@ -90,7 +144,7 @@ public class GameManagerS : MonoBehaviour
             {
                 if (theGridio[i, j].mine)
                 {
-                    if (theGridio[i, j].GetComponent<SpriteRenderer>().sprite.texture.name != "FlagTile")
+                    if (theGridio[i, j].GetComponent<SpriteRenderer>().sprite.texture.name != "flagtile")
                     {
                         answer = false;
                     }
@@ -100,13 +154,14 @@ public class GameManagerS : MonoBehaviour
         if (answer)
         {
             Debug.Log("you win");
-            SceneManager.LoadScene("Overworld");
         }
     }
 
     public void uncovEmpties(int a, int b)
     {
         if (empGridio[a, b]) { return; }
+
+        if (theGridio[a,b].GetComponent<SpriteRenderer>().sprite.name == "flagtile") { return; }
 
         empGridio[a, b] = true;
 

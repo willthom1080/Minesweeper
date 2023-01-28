@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8645483461515886427}
   - component: {fileID: 8645483461515886424}
   - component: {fileID: 8645483461515886425}
+  - component: {fileID: -6519628479623946027}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -99,9 +100,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mine: 0
   theManager: {fileID: 0}
+  theAstManager: {fileID: 0}
   iCoord: 0
   jCoord: 0
-  emptyTextures: []
-  mineTexture: {fileID: 0}
-  flagTexture: {fileID: 0}
-  tileTexture: []
+  emptyTextures:
+  - {fileID: 21300000, guid: 955ad638ed6d136408b2eb3603148e16, type: 3}
+  - {fileID: 21300000, guid: 7d88dcdc4ee5f7344a9314887db9f650, type: 3}
+  - {fileID: 21300000, guid: 305872c0db4ff7a4892d9f7f06529a8c, type: 3}
+  - {fileID: 21300000, guid: 6ef55248f413c794ea86e42e5a92df28, type: 3}
+  - {fileID: 21300000, guid: 8d2f92794051dfa4fb8e2b0d1f2c7060, type: 3}
+  - {fileID: 21300000, guid: 6460052f2a1ee9d40a9c8429c50459de, type: 3}
+  - {fileID: 21300000, guid: 0750b66d1a408994b8d2670873fcbca3, type: 3}
+  - {fileID: 21300000, guid: e35ae330c86f2b948b15ceed70e3288f, type: 3}
+  - {fileID: 21300000, guid: fc2a91ffe083951498354f268edf0763, type: 3}
+  mineTexture: {fileID: 21300000, guid: 028e1d66e302c0e4c99d5a8e43f9c16e, type: 3}
+  flagTexture: {fileID: 21300000, guid: 77541ab0d4f3e8043bdf376bb405cf8b, type: 3}
+  tileTexture:
+  - {fileID: 21300000, guid: 104ff3c0e40c1ec48a87a931021f1a11, type: 3}
+--- !u!61 &-6519628479623946027
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8645483461515886430}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.16, y: 0.16}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.16}
+  m_EdgeRadius: 0
