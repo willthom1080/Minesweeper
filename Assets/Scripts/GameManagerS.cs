@@ -18,6 +18,8 @@ public class GameManagerS : MonoBehaviour
     public MSTile[,] theGridio;
     public bool[,] empGridio;
 
+
+    public Canvas theCanvas;
     void Start()
     {
         //
@@ -153,7 +155,7 @@ public class GameManagerS : MonoBehaviour
         }
         if (answer)
         {
-            Debug.Log("you win");
+            theCanvas.enabled = true ;
         }
     }
 
