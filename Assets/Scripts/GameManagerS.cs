@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class GameManagerS : MonoBehaviour
@@ -8,6 +10,8 @@ public class GameManagerS : MonoBehaviour
 
     public GameObject tilePrefab;
     private GameObject newTile;
+    public GameObject theSlider;
+    public TextMeshProUGUI sizeText;
     float tempX;
     float tempY;
     float chance;
@@ -19,10 +23,22 @@ public class GameManagerS : MonoBehaviour
     public bool[,] empGridio;
 
 
-    public Canvas theCanvas;
-    void Start()
+    public Canvas startCanvas;
+    public Canvas endCanvas;
+
+    private void Start()
     {
-        //
+        
+    }
+
+    public void Begin()
+    {
+        startCanvas.enabled = false;
+
+        if (w % 2 == 0)
+        {
+            Camera.main.transform.position = new Vector3((float)-0.5, (float)-0.5, (float)-10);
+        }
 
         theGridio = new MSTile[w, h];
         empGridio = new bool[w, h];
@@ -41,6 +57,14 @@ public class GameManagerS : MonoBehaviour
             }
         }
         
+    }
+
+    public void setSize()
+    {
+        int dimes = (int)theSlider.GetComponent<Slider>().value;
+        w = dimes;
+        h = w;
+        sizeText.text = w + " by " + h + "\n Layout";
     }
 
     public void generateMines(int safeX, int safeY)
@@ -142,7 +166,7 @@ public class GameManagerS : MonoBehaviour
         bool answer = true;
         for (int i = 0; i < w; i++)
         {
-            for (int j = 0; i < h; i++)
+            for (int j = 0; j < h; j++)
             {
                 if (theGridio[i, j].mine)
                 {
@@ -155,7 +179,7 @@ public class GameManagerS : MonoBehaviour
         }
         if (answer)
         {
-            theCanvas.enabled = true ;
+            endCanvas.enabled = true ;
         }
     }
 
