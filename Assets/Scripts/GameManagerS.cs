@@ -16,6 +16,7 @@ public class GameManagerS : MonoBehaviour
     float tempY;
     float chance;
     public bool started;
+    public Sprite defeat;
 
     public int w;
     public int h;
@@ -123,6 +124,8 @@ public class GameManagerS : MonoBehaviour
         {
             if (spot.mine) { spot.loadTexture(0); }
         }
+        endCanvas.enabled = true;
+        endCanvas.GetComponentInChildren<Image>().sprite = defeat;
     }
 
     public int getAdjCount(int a, int b)
@@ -228,38 +231,9 @@ public class GameManagerS : MonoBehaviour
 
     }
 
-    public void showSafeStart()
+    public void Restart()
     {
-        MSTile safeStart = null;
-        foreach (MSTile spot in theGridio)
-        { //Finds a safe starting tile close to center
-            if (spot.iCoord != 0 && spot.iCoord != w - 1 && spot.jCoord != 0 && spot.jCoord != h - 1)
-            {
-                if (getAdjCount(spot.iCoord, spot.jCoord) == 0 && spot.mine == false)
-                {
-                    safeStart = spot;
-                }
-            }
-            if (spot.iCoord > h / 4)
-            {
-                if (Random.value > .75 && safeStart != null) { break; }
-            }
-        }
-        if (safeStart == null)
-        {
-            foreach (MSTile spot in theGridio) //Finds any safe starting tile only triggered if previous loop fails
-            {
-                if (getAdjCount(spot.iCoord, spot.jCoord) == 0 && spot.mine == false)
-                {
-                    safeStart = spot;
-                }
-                if (Random.value > .15 && safeStart != null) { break; }
-            }
-        }
-        if (safeStart != null)
-        {
-            safeStart.loadTexture(1);
-        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 }

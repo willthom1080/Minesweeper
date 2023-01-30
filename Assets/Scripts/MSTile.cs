@@ -49,7 +49,7 @@ public class MSTile : MonoBehaviour
         //Use for non left mouse button clicks
         if (Input.GetMouseButtonDown(1))
         {
-            if (GetComponent<SpriteRenderer>().sprite == tileTexture[0] || GetComponent<SpriteRenderer>().sprite == flagTexture)
+            if ((GetComponent<SpriteRenderer>().sprite == tileTexture[0] || GetComponent<SpriteRenderer>().sprite == flagTexture) && theAstManager.started)
             {
                 flagPlant();
             }
